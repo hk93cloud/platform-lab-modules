@@ -24,7 +24,7 @@ variable "administrator_login_password" {
   sensitive   = true
 }
 
-variable "version" {
+variable "server_version" {
   description = "SQL Server version"
   type        = string
   default     = "12.0"

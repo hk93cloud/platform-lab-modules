@@ -16,7 +16,7 @@ variable "subnets" {
       name         = string
       service_name = string
       actions      = list(string)
-    }))
+    }), null)
   }))
 }
 

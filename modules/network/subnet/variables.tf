@@ -9,8 +9,14 @@ variable "virtual_network_name" {
 }
 
 variable "subnets" {
-  description = "A map of objects describing subnets. The map key will be used as the subnet name. Each object must have 'address_prefixes'."
+  description = "Map of subnets to create"
   type = map(object({
     address_prefixes = list(string)
+    delegation = optional(object({
+      name         = string
+      service_name = string
+      actions      = list(string)
+    }))
   }))
 }
+

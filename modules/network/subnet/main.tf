@@ -7,13 +7,12 @@ resource "azurerm_subnet" "this" {
   address_prefixes     = each.value.address_prefixes
 
   dynamic "delegation" {
-    for_each = try(each.value.delegation, null) != null ? [each.value.delegation] : []
+    for_each = lookup(each.value, "delegation", null) != null ? [1] : []
     content {
-      name = delegation.value.name
-
+      name = each.value.delegation.name
       service_delegation {
-        name    = delegation.value.service_name
-        actions = delegation.value.actions
+        name    = each.value.delegation.service_name
+        actions = each.value.delegation.actions
       }
     }
   }

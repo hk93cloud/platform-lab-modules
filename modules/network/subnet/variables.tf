@@ -10,5 +10,7 @@ variable "virtual_network_name" {
 
 variable "subnets" {
   description = "Map of subnets to create"
-  type        = any
+  type = map(object({
+    address_prefixes = list(string)
+  }))
 }

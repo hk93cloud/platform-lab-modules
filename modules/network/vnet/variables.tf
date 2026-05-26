@@ -1,25 +1,47 @@
-variable "vnet_name" {
-	description = "The name of the virtual network."
-	type        = string
-}
-
-variable "location" {
-	description = "The Azure location where the virtual network will be created."
-	type        = string
+# ── Required Variables ──────────────────
+variable "name" {
+  type        = string
+  description = "Name of the virtual network."
 }
 
 variable "resource_group_name" {
-	description = "The name of the resource group in which to create the virtual network."
-	type        = string
+  type        = string
+  description = "Resource group name for the VNet."
 }
 
+variable "location" {
+  type        = string
+  description = "Azure region for the VNet."
+}
+
+# ── Optional Variables ──────────────────
 variable "address_space" {
-	description = "The address space that is used by the virtual network."
-	type        = list(string)
+  type        = list(string)
+  description = "Address space for the VNet."
+  default     = ["10.0.0.0/16"]
+}
+
+variable "subnets" {
+  type = map(object({
+    address_prefix    = string
+    nsg_rules         = optional(list(object({
+      name                       = string
+      priority                   = number
+      direction                  = string
+      access                     = string
+      protocol                   = string
+      source_port_range          = string
+      destination_port_range     = string
+      source_address_prefix      = string
+      destination_address_prefix = string
+    })), [])
+  }))
+  description = "Map of subnet names to subnet configuration and optional NSG rules."
+  default     = {}
 }
 
 variable "tags" {
-	description = "A map of tags to assign to the resource."
-	type        = map(string)
-	default     = {}
+  type        = map(string)
+  description = "Tags to apply to all resources."
+  default     = {}
 }
